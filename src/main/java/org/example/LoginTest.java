@@ -14,6 +14,8 @@ public class LoginTest {
 
             Page page = browser.newPage();
 
+
+
             // Open website
             page.navigate("https://www.saucedemo.com");
 
@@ -35,7 +37,16 @@ public class LoginTest {
                 System.out.println("LOGIN FAILED");
             }
 
-            page.waitForTimeout(5000);
+            page.waitForURL("**/inventory.html");
+
+            String currentUrl = page.url();
+            System.out.println("Current URL: " + currentUrl);
+
+            if(currentUrl.contains("inventory")) {
+                System.out.println("URL Validation Passed");
+            } else {
+                System.out.println("URL Validation Failed");
+            }
 
             browser.close();
         }
