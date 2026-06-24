@@ -46,4 +46,18 @@ public class ProductPage {
 
         return actualPrices;
     }
+    public void addProduct(String productName) {
+
+        page.locator(
+                        "//div[text()='" + productName +
+                                "']/ancestor::div[@class='inventory_item']//button")
+                .click();
+    }
+    public void removeProduct(String productName) {
+
+        page.locator(
+                        "//div[text()='" + productName +
+                                "']/ancestor::div[@class='inventory_item']//button")
+                .click();
+    }
 }
