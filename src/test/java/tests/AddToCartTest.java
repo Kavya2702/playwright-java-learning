@@ -13,13 +13,6 @@ public class AddToCartTest extends BaseTest {
 
         ProductPage productPage = new ProductPage(page);
 
-        // Add products
-//        productPage.addBackpack();
-//        productPage.addBikeLight();
-
-        // Validate cart count
-
-
         //Adding product with dynamic locator
         productPage.addProduct("Sauce Labs Backpack");
         productPage.addProduct("Sauce Labs Bike Light");
