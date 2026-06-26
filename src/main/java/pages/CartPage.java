@@ -13,4 +13,8 @@ public class CartPage {
     public boolean isBackpackDisplayed() {
         return page.locator("text=Sauce Labs Backpack").isVisible();
     }
+
+    public void clickCheckout() {
+        page.locator("#checkout").click();
+    }
 }
