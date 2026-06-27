@@ -1,43 +1,61 @@
 package base;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
-
-import org.junit.jupiter.api.BeforeEach;
+import com.microsoft.playwright.*;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import pages.LoginPage;
+import utils.ConfigReader;
 
 public class BaseTest {
 
     protected Playwright playwright;
     protected Browser browser;
+    protected BrowserContext context;
     protected Page page;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
 
         playwright = Playwright.create();
 
+        String browserName = ConfigReader.get("browser");
+        boolean headless = Boolean.parseBoolean(ConfigReader.get("headless"));
+
+        // Launch browser
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
-                        .setHeadless(false));
+                        .setHeadless(headless)
+        );
 
-        page = browser.newPage();
+        // Create context (important best practice)
+        context = browser.newContext();
+        page = context.newPage();
 
-        page.navigate("https://www.saucedemo.com");
+        // Navigate to application
+        page.navigate(ConfigReader.get("baseUrl"));
 
+        // Login Page usage (POM)
         LoginPage loginPage = new LoginPage(page);
 
         loginPage.login(
-                "standard_user",
-                "secret_sauce");
+                ConfigReader.get("username"),
+                ConfigReader.get("password")
+        );
     }
 
     @AfterEach
-    public void tearDown() {
-        browser.close();
-        playwright.close();
+    void tearDown() {
+
+        if (context != null) {
+            context.close();
+        }
+
+        if (browser != null) {
+            browser.close();
+        }
+
+        if (playwright != null) {
+            playwright.close();
+        }
     }
 }
