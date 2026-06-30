@@ -1,10 +1,11 @@
 package tests;
 
 import base.BaseTest;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 import pages.ProductPage;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.testng.Assert.assertEquals;
 
 public class AddToCartTest extends BaseTest {
 

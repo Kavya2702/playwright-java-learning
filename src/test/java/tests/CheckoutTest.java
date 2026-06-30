@@ -1,12 +1,13 @@
 package tests;
 
 import base.BaseTest;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
+
 import pages.CartPage;
 import pages.CheckoutPage;
 import pages.ProductPage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class CheckoutTest extends BaseTest {
 

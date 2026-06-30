@@ -1,8 +1,8 @@
 package base;
 
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import utils.ConfigReader;
 
@@ -13,8 +13,8 @@ public class BaseTest {
     protected BrowserContext context;
     protected Page page;
 
-    @BeforeEach
-    void setup() {
+    @BeforeMethod
+    public void setup() {
 
         playwright = Playwright.create();
 
@@ -22,29 +22,43 @@ public class BaseTest {
         boolean headless = Boolean.parseBoolean(ConfigReader.get("headless"));
 
         // Launch browser
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions()
-                        .setHeadless(headless)
-        );
+        switch (browserName.toLowerCase()) {
 
-        // Create context (important best practice)
+            case "firefox":
+                browser = playwright.firefox().launch(
+                        new BrowserType.LaunchOptions().setHeadless(headless));
+                break;
+
+            case "webkit":
+                browser = playwright.webkit().launch(
+                        new BrowserType.LaunchOptions().setHeadless(headless));
+                break;
+
+            default:
+                browser = playwright.chromium().launch(
+                        new BrowserType.LaunchOptions().setHeadless(headless));
+                break;
+        }
+
+        // Create Browser Context
         context = browser.newContext();
+
+        // Create Page
         page = context.newPage();
 
-        // Navigate to application
+        // Navigate
         page.navigate(ConfigReader.get("baseUrl"));
 
-        // Login Page usage (POM)
+        // Login
         LoginPage loginPage = new LoginPage(page);
-
         loginPage.login(
                 ConfigReader.get("username"),
                 ConfigReader.get("password")
         );
     }
 
-    @AfterEach
-    void tearDown() {
+    @AfterMethod
+    public void tearDown() {
 
         if (context != null) {
             context.close();

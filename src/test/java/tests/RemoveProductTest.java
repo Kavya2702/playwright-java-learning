@@ -4,8 +4,11 @@ import base.BaseTest;
 
 import pages.CartPage;
 import pages.ProductPage;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class RemoveProductTest extends BaseTest {
 
