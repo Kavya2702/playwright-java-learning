@@ -10,27 +10,21 @@ public class CheckoutPage {
         this.page = page;
     }
 
-    public void enterFirstName(String firstName) {
+    public CheckoutOverviewPage enterCheckoutInformation(
+            String firstName,
+            String lastName,
+            String zipCode) {
+
         page.locator("#first-name").fill(firstName);
-    }
 
-    public void enterLastName(String lastName) {
         page.locator("#last-name").fill(lastName);
-    }
 
-    public void enterPostalCode(String postalCode) {
-        page.locator("#postal-code").fill(postalCode);
-    }
+        page.locator("#postal-code").fill(zipCode);
 
-    public void clickContinue() {
         page.locator("#continue").click();
+
+        return new CheckoutOverviewPage(page);
     }
 
-    public void clickFinish() {
-        page.locator("#finish").click();
-    }
 
-    public String getSuccessMessage() {
-        return page.locator(".complete-header").textContent();
-    }
 }

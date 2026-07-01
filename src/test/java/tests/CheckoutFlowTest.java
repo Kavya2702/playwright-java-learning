@@ -1,9 +1,9 @@
 package tests;
 
-import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import base.BaseTest;
 import pages.CartPage;
 import pages.CheckoutCompletePage;
 import pages.CheckoutOverviewPage;
@@ -11,10 +11,10 @@ import pages.CheckoutPage;
 import pages.ProductPage;
 import utils.ConfigReader;
 
-public class CheckoutTest extends BaseTest {
+public class CheckoutFlowTest extends BaseTest {
 
     @Test
-    public void completeCheckoutFlow() {
+    public void verifyCompleteCheckoutFlow() {
 
         // Product Page
         ProductPage productPage = new ProductPage(page);
@@ -29,14 +29,14 @@ public class CheckoutTest extends BaseTest {
         // Checkout Page
         CheckoutPage checkoutPage = cartPage.clickCheckout();
 
-        // Enter Checkout Details
+        // Checkout Information
         CheckoutOverviewPage overviewPage =
                 checkoutPage.enterCheckoutInformation(
                         ConfigReader.getProperty("firstname"),
                         ConfigReader.getProperty("lastname"),
                         ConfigReader.getProperty("zipcode"));
 
-        // Verify Product
+        // Verify Overview Page
         Assert.assertEquals(
                 overviewPage.getProductName(),
                 "Sauce Labs Backpack");
@@ -55,14 +55,12 @@ public class CheckoutTest extends BaseTest {
                 completePage.getSuccessMessage()
                         .contains("Your order has been dispatched"));
 
-        // Screenshot
-        page.screenshot(
-                new com.microsoft.playwright.Page.ScreenshotOptions()
-                        .setPath(java.nio.file.Paths.get("screenshots/CheckoutSuccess.png")));
-
         // Back Home
-        ProductPage homePage = completePage.clickBackHome();
+        ProductPage homePage =
+                completePage.clickBackHome();
 
+        // Verify Product Page
         Assert.assertTrue(homePage.isProductPageDisplayed());
+
     }
 }

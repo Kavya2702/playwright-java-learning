@@ -13,7 +13,9 @@
             <class name="tests.CheckoutTest"/>
             <class name="tests.RemoveProductTest"/>
             <class name="tests.SortProductTest"/>
+            <class name="tests.CheckoutFlowTest"/>
         </classes>
+
 
     </test>
 

@@ -28,30 +28,44 @@ public class ProductPage {
         return page.locator(".shopping_cart_badge").textContent();
     }
 
-    public void openCart() {
+    // Page Chaining
+    public CartPage openCart() {
         page.locator(".shopping_cart_link").click();
+        return new CartPage(page);
     }
+
     public void sortByLowToHigh() {
         page.locator(".product_sort_container").selectOption("lohi");
     }
+
     public List<Double> getProductPrices() {
 
         List<String> prices = page.locator(".inventory_item_price").allTextContents();
 
         List<Double> actualPrices = new ArrayList<>();
 
-        for(String price : prices) {
-            actualPrices.add(Double.parseDouble(price.replace("$","")));
+        for (String price : prices) {
+            actualPrices.add(Double.parseDouble(price.replace("$", "")));
         }
 
         return actualPrices;
     }
+
     public void addProduct(String productName) {
-
-        page.locator("//div[text()='" + productName + "']/ancestor::div[@class='inventory_item']//button").click();
+        page.locator("//div[text()='" + productName +
+                "']/ancestor::div[@class='inventory_item']//button").click();
     }
-    public void removeProduct(String productName) {
 
-        page.locator("//div[text()='" + productName + "']/ancestor::div[@class='inventory_item']//button").click();
+    public void removeProduct(String productName) {
+        page.locator("//div[text()='" + productName +
+                "']/ancestor::div[@class='inventory_item']//button").click();
+    }
+
+    public void clickProduct(String productName) {
+        page.locator("//div[text()='" + productName + "']").click();
+    }
+
+    public boolean isProductPageDisplayed() {
+        return page.locator(".inventory_list").isVisible();
     }
 }
